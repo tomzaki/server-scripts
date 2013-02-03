@@ -1,13 +1,38 @@
-# Unrar Utility v0.5
+# Unrar Utility
 # Tom Zaki
-# 2013
+# 02.03.2013
 
-# large text strings
-msg="\nOptions:\n1) Unrar files\n2) Cleanup directory\n3) Unrar and clean all immediate subdirectories\n4) Exit"
+# Variables
 
-options=("Unrar files" "Cleanup directory" "Unrar and clean all immediate subdirectories" "Exit")
+# options - all of the choices to present to the user
+# - add more options in the location they should
+#   appear in the list
+# - remember to end each line with " \" and don't
+#   leave any trailing spaces
+# - also remember to add a case for the new option 
+#   in the main loop. If no case is added the script
+#   will simply ignore the command gracefully
+options=( \
+  "Unrar files" \
+  "Cleanup directory" \
+  "Unrar and clean all immediate subdirectories" \
+  "Exit" \
+)
 
-# unrar
+# msg - used to print the string of options
+msg="\nOptions:"
+i=1
+for opt in "${options[@]}"; do
+   msg+="\n$i) $opt"
+   let i++
+done
+
+# Fucntions
+# - fucntions should be used to separate long 
+#   commands from the main loop and should appear
+#   before the main loop 
+
+# function: unrar
 # - handles a few common types of rar archives
 function ur { 
    echo "Unraring..."
@@ -22,7 +47,7 @@ function ur {
    fi  
 }
 
-# clean
+# function: clean
 # - removes leftover rar files
 # - removes some other junk typically 
 #   found in torrent folders
@@ -31,10 +56,29 @@ function cl {
    rm -f *.r?? *.0?? *.sfv *.nfo *.url *.jpg *.jpeg *.txt
    rm -rf Sample/ sample/ Subs/ subs/ Screens/ screens/
 }
+
+# function: sub-directories
+# - both unrar's and cleans all immediate 
+#   sub directories of the active dir
+function sd {
+   if [ -f */ ]; then
+      for D in */; do
+         cd "$D"
+         echo -e "\nWorking in $D"
+         ur # unrar
+         cl # clean
+         echo "Leaving $D"
+         cd ..
+      done
+   else
+      echo -e "\nThere are no sub-directories in this location..."
+   fi
+}
+
+# Main Loop:
 clear
 echo "Options:"
-select choice in "${options[@]}"
-do
+select choice in "${options[@]}"; do
    case "$choice" in
       "Unrar files" )
          echo ""
@@ -47,18 +91,15 @@ do
          echo -e $msg
       ;;
       "Unrar and clean all immediate subdirectories" )
-         for D in */; do
-            cd "$D"
-            echo -e "\nWorking in $D"
-            ur # unrar
-            cl # clean
-            echo "Leaving $D"
-            cd ..
-         done
+         sd # sub-directories 
          echo -e $msg
       ;;
       "Exit" )
-         exit
+         exit 0
+      ;;
+      * ) # default - gracefully handle unexpected input
+         echo -e "\nThis option is either not yet suppoted or does not exist"
+         echo -e $msg
       ;;
    esac
 done
