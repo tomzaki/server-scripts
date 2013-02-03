@@ -100,7 +100,7 @@ clear
 # Must run as root 
 if [ $(whoami) != "root" ]; then
     echo "You need to run this script as root."
-    echo "Use 'sudo bash newuser.bash' then enter your password when prompted."
+    echo "Use 'sudo bash editusrs.bash' if you are not root."
     exit 1
 fi
 echo "Options:"
