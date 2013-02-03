@@ -1,3 +1,4 @@
+#!/bin/bash
 # Unrar Utility
 # Tom Zaki
 # 02.03.2013

@@ -1,3 +1,4 @@
+#!/bin/bash
 # Fix Permissions
 # Tom Zaki
 # 02.03.2013
