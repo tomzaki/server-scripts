@@ -2,7 +2,7 @@
 # Update Indexes
 # Tom Zaki
 # 02.05.2013
-
+#
 # post-login script that updates the indexes of all dirs
 # within the public directory. saves a *lot* of headaches
 
@@ -20,7 +20,7 @@ select yn in "Yes" "No"; do
          echo "Public Folder indexes updated!"
          exit 0
       ;;
-      No )  
+      * )  
         clear
         echo "Public Folder permissions not updated.";
 	exit 0

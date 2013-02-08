@@ -20,7 +20,7 @@ select yn in "Yes" "No"; do
          echo "Public Folder permission updated."
          exit 0
       ;;
-      No )  
+      * )  
         clear
         echo "Public Folder permissions not updated.";
 	exit 0
